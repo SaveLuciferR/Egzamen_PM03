@@ -49,7 +49,7 @@ namespace ConsoleApp1
             private int n = 0;
             private Book[] books;
 
-            public BookControl(int n)
+            public BookControl(int n)   
             {
                 this.n = n;
                 books = new Book[n];
@@ -85,6 +85,7 @@ namespace ConsoleApp1
 
             public void SortBook()
             {
+
                 books = books.OrderByDescending(x => x.GetZhanr()).ThenByDescending(x => x.GetAuthor()).ThenByDescending(x => x.GetName()).ToArray();
             }
 
@@ -96,6 +97,7 @@ namespace ConsoleApp1
                     {
                         writer.Write(books[i].ToString());
                     }
+
                     writer.Write("\n\r\n\r");
                 };
             }
@@ -127,6 +129,7 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             Console.Write("Введите кол-во книг: ");
+
 
             int n = getIntValue();
 
