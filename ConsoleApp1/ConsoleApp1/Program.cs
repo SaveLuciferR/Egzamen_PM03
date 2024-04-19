@@ -58,41 +58,43 @@ namespace ConsoleApp1
             {
                 for (int i = 0; i < n; i++)
                 {
-                    Console.Write("Введите автора книги");
+                    Console.Write("Введите автора книги №" + (i + 1));
                     string a = Console.ReadLine();
 
-                    Console.Write("Введите жанр книги");
+                    Console.Write("Введите жанр книги №" + (i + 1));
                     string z = Console.ReadLine();
 
-                    Console.Write("Введите название книги");
+                    Console.Write("Введите название книги №" + (i + 1));
                     string n = Console.ReadLine();
 
                     books[i] = new Book(a, z, n);
+                    Console.WriteLine();
                 }
             }
 
             public void PrintBooks()
             {
+                Console.WriteLine("Записанные книги");
+
                 for (int i = 0; i < n; i++)
                 {
-                    Console.WriteLine("Записанные книги");
                     Console.Write(books[i].ToString());
                 }
             }
 
             public void SortBookByZhanr()
             {
-                books = books.OrderBy(x => x.GetZhanr()).ToArray();
+                books = books.OrderByDescending(x => x.GetZhanr()).ToArray();
             }
 
             public void SortBookByAuthor()
             {
-                books = books.OrderBy(x => x.GetAuthor()).ToArray();
+                books = books.OrderByDescending(x => x.GetAuthor()).ToArray();
             }
 
             public void SortBookByName()
             {
-                books = books.OrderBy(x => x.GetName()).ToArray();
+                books = books.OrderByDescending(x => x.GetName()).ToArray();
             }
         };
 
@@ -123,7 +125,24 @@ namespace ConsoleApp1
         {
             Console.Write("Введите кол-во книг: ");
 
-            //BookControl books = new BookControl();
+            int n = getIntValue();
+
+            BookControl books = new BookControl(n);
+            books.EnterParamsBooks();
+            Console.WriteLine("");
+            books.PrintBooks();
+
+            Console.WriteLine("\n\rСортировка книг по жанрам");
+            books.SortBookByZhanr();
+            books.PrintBooks();
+
+            Console.WriteLine("\n\rСортировка книг по авторам");
+            books.SortBookByAuthor();
+            books.PrintBooks();
+
+            Console.WriteLine("\n\rСортировка книг по названию");
+            books.SortBookByName();
+            books.PrintBooks();
         }
     }
 }
