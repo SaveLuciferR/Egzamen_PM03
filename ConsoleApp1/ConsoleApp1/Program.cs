@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace ConsoleApp1
 {
@@ -58,13 +59,13 @@ namespace ConsoleApp1
             {
                 for (int i = 0; i < n; i++)
                 {
-                    Console.Write("Введите автора книги №" + (i + 1));
+                    Console.Write("Введите автора книги №" + (i + 1) + ": ");
                     string a = Console.ReadLine();
 
-                    Console.Write("Введите жанр книги №" + (i + 1));
+                    Console.Write("Введите жанр книги №" + (i + 1) + ": ");
                     string z = Console.ReadLine();
 
-                    Console.Write("Введите название книги №" + (i + 1));
+                    Console.Write("Введите название книги №" + (i + 1) + ": ");
                     string n = Console.ReadLine();
 
                     books[i] = new Book(a, z, n);
@@ -82,19 +83,21 @@ namespace ConsoleApp1
                 }
             }
 
-            public void SortBookByZhanr()
+            public void SortBook()
             {
-                books = books.OrderByDescending(x => x.GetZhanr()).ToArray();
+                books = books.OrderByDescending(x => x.GetZhanr()).ThenByDescending(x => x.GetAuthor()).ThenByDescending(x => x.GetName()).ToArray();
             }
 
-            public void SortBookByAuthor()
+            public void WriteInFile()
             {
-                books = books.OrderByDescending(x => x.GetAuthor()).ToArray();
-            }
-
-            public void SortBookByName()
-            {
-                books = books.OrderByDescending(x => x.GetName()).ToArray();
+                using (StreamWriter writer = new StreamWriter("file.txt"))
+                {
+                    for (int i = 0; i < n; i++)
+                    {
+                        writer.Write(books[i].ToString());
+                    }
+                    writer.Write("\n\r\n\r");
+                };
             }
         };
 
@@ -131,18 +134,14 @@ namespace ConsoleApp1
             books.EnterParamsBooks();
             Console.WriteLine("");
             books.PrintBooks();
+            books.WriteInFile();
 
-            Console.WriteLine("\n\rСортировка книг по жанрам");
-            books.SortBookByZhanr();
+            Console.WriteLine("\n\rСортировка книг");
+            books.SortBook();
             books.PrintBooks();
 
-            Console.WriteLine("\n\rСортировка книг по авторам");
-            books.SortBookByAuthor();
-            books.PrintBooks();
-
-            Console.WriteLine("\n\rСортировка книг по названию");
-            books.SortBookByName();
-            books.PrintBooks();
+            Console.WriteLine("Запись отсортированных книг в файл");
+            books.WriteInFile();
         }
     }
 }
